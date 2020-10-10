@@ -1,0 +1,96 @@
+// Google Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url('https://fonts.googleapis.com/css?family=Abril+Fatface&display=swap');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+// FONTS
+@font-face {
+	font-family: 'Abril Text Regular';
+	src: url('/fonts/Abril Text Regular.otf');
+}
+@font-face {
+	font-family: 'Brandon Text Regular';
+	src: url('/fonts/BrandonText-Regular.otf');
+}
+html,
+body {
+	background-color: #eee;
+}
+nav {
+	border-bottom-left-radius: 8px;
+	border-bottom-right-radius: 8px;
+	box-shadow: 1px 1px 2px rgba(0,0,0,0.2),
+							1px 4px 8px rgba(0,0,0,0.15),
+							1px 8px 16px rgba(0,0,0,0.1);
+}
+table {
+	box-shadow: 0 0.15rem 1.75rem 0 rgba(62, 62, 62, 0.15);
+}
+th {
+	font-family: 'Abril Text Regular';
+	font-size: 0.95rem;
+	letter-spacing: 0.05rem;
+}
+.label {
+	font-family: 'Brandon Text Regular';
+	font-size: 1.1rem;
+	color: #444;
+	margin-left: 0.33rem;
+}
+hr {
+	margin-top: 0.5rem;
+	margin-bottom: 0.5rem;
+}
+section.hero {
+	margin-top: 25px;
+	border-radius: 3px;
+}
+.container {
+	min-height: 89vh;
+	margin-bottom: 2.5rem;
+}
+.title {
+	margin-top: 1.5rem;
+	font-family: 'Abril Fatface', cursive;
+	font-size: 2.75rem;
+	font-weight: normal;
+	letter-spacing: 0.1rem;
+}
+.navbar-link {
+	font-family: 'Brandon Text Regular';
+	font-size: 1.1rem;
+}
+a.navbar-item {
+	font-family: 'Brandon Text Regular';
+	font-size: 1rem;
+}
+a.pocetna {
+	font-size: 1.1rem;
+}
+.napravi {
+	width: 100%;
+}
+.brojLjekova {
+	display: inline-block;
+}
+.pretraga {
+	margin-bottom: 10px;
+}
+.futer,
+.sijenka {
+	box-shadow: 0 0.15rem 1.75rem 0 rgba(62, 62, 62, 0.15);
+}
+.table td {
+	vertical-align: middle;
+}
+.table.is-striped tbody tr:not(.is-selected):nth-child(2n) {
+    background-color: #f2f2f2;
+}
+.table.prikaz td {
+	padding-left: 1.5rem;
+}
