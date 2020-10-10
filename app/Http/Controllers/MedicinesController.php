@@ -93,7 +93,7 @@ class MedicinesController extends Controller
 		$medicines = Medicine::medicinesNazivi();
 
 		$mala_slova_naziv = Str::lower($data['name']);
-		$mala_slova_original = Str::lower($data['originalni_name']);
+		$mala_slova_original = Str::lower($data['original_name']);
 		if($medicines->contains($mala_slova_naziv) && $mala_slova_naziv != $mala_slova_original) {
 			return redirect()
 				->back()

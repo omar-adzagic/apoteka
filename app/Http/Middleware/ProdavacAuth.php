@@ -15,7 +15,7 @@ class ProdavacAuth
      */
     public function handle($request, Closure $next)
     {
-        if(auth()->user()->uloga->naziv == 'Prodavac') {
+        if(auth()->user()->role->name == 'Prodavac') {
             abort(403, 'Pristup Nije Dozvoljen Prodavcu');
         }
         return $next($request);
