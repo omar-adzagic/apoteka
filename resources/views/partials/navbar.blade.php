@@ -7,17 +7,17 @@
     </a>
   </div>
 
-  <a class="navbar-item pocetna" href="/">Početna</a>
+  <a class="navbar-item pocetna" href="/">Homepage</a>
   <div id="navbarBasicExample" class="navbar-menu">
     <div class="navbar-start">
       <div class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-link">Ljekovi</a>
+        <a class="navbar-link">Medicines</a>
         <div class="navbar-dropdown">
-          <a class="navbar-item" href="{{ route('medicines.index') }}">Svi Ljekovi</a>
+          <a class="navbar-item" href="{{ route('medicines.index') }}">All medicines</a>
           @if(!Auth::guest() && auth()->user()->role->name == 'Manager')
-            <a class="navbar-item" href="{{ route('medicines.create') }}">Dodaj Lijek</a>
-            <a class="navbar-item" href="{{ route('medicineTypes.index') }}">Tipovi Ljekova</a>
-            <a class="navbar-item" href="{{ route('medicineTypes.create') }}">Dodaj Tip Lijeka</a>
+            <a class="navbar-item" href="{{ route('medicines.create') }}">Add medicine</a>
+            <a class="navbar-item" href="{{ route('medicineTypes.index') }}">Medicine types</a>
+            <a class="navbar-item" href="{{ route('medicineTypes.create') }}">Add medicine type</a>
           @endif
         </div>
       </div>
@@ -25,14 +25,14 @@
       <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link">Računi</a>
         <div class="navbar-dropdown">
-          <a class="navbar-item" href="{{ route('receipts.index') }}">Svi Računi</a>
+          <a class="navbar-item" href="{{ route('receipts.index') }}">All receipts</a>
         </div>
       </div>
       @if(!Auth::guest() && auth()->user()->role->name == 'Manager')
         <div class="navbar-item has-dropdown is-hoverable">
           <a class="navbar-link">Trebovanja</a>
           <div class="navbar-dropdown">
-            <a class="navbar-item" href="{{ route('orders.index') }}">Sva Trebovanja</a>
+            <a class="navbar-item" href="{{ route('orders.index') }}">All orders</a>
           </div>
         </div>
       @endif
@@ -40,10 +40,10 @@
     @if(!Auth::guest() && auth()->user()->role->name == 'Manager')
       <div class="navbar-end">
         <div class="navbar-item has-dropdown is-hoverable is-pulled-right">
-          <a class="navbar-link">Korisnici</a>
+          <a class="navbar-link">Users</a>
           <div class="navbar-dropdown">
-            <a class="navbar-item" href="{{ route('users.index') }}">Svi Korisnici</a>
-            <a class="navbar-item" href="{{ route('users.create') }}">Dodaj Korisnika</a>
+            <a class="navbar-item" href="{{ route('users.index') }}">All users</a>
+            <a class="navbar-item" href="{{ route('users.create') }}">Add user</a>
           </div>
         </div>
       </div>
@@ -54,11 +54,11 @@
     <div class="navbar-item">
       <div class="buttons">
         @auth
-          <a class="button is-info" href="{{ route('logout') }}">Odjavi se {{ auth()->user()->ime }}</a>
+          <a class="button is-info" href="{{ route('logout') }}">Logout {{ auth()->user()->name }}</a>
         @endauth
         @guest
-          <a class="button is-primary" href="{{ route('register') }}"><strong>Registracija</strong></a>
-          <a class="button is-light" href="{{ route('login') }}">Prijava</a>
+          <a class="button is-primary" href="{{ route('register') }}"><strong>Registration</strong></a>
+          <a class="button is-light" href="{{ route('login') }}">Login</a>
         @endguest
       </div>
     </div>

@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('content')
-	<h1 class="title has-text-centered">Izmijeni Lijek</h1>
+	<h1 class="title has-text-centered">Edit medicine</h1>
 	<div class="columns">
 		<div class="column is-two-thirds is-offset-2">
 			<div class="box sijenka">
@@ -10,7 +10,7 @@
 					@csrf
 
 					<div class="field">
-						<label class="label" for="name">Naziv</label>
+						<label class="label" for="name">Name</label>
 						<div class="control">
 							<input class="input {{ $errors->has('name') ? 'is-danger' : '' }}" name="name" type="text" placeholder="Naziv" value="{{ session('oldName') ?? old('name') ?? $medicine->name }}">
 							<input type="hidden" name="original_name" value="{{ $medicine->name }}">
@@ -20,10 +20,10 @@
 					@include('partials.error', ['name' => 'name'])
 
 					<div class="field">
-						<label class="label" for="tip">Tip</label>
+						<label class="label" for="tip">Type</label>
 						<div class="select">
 							<select class="" name="medicine_type_id">
-								<option disabled>Izaberite Tip</option>
+								<option disabled>Choose type</option>
 								@foreach($medicineTypes as $medicineType)
 									<option value="{{ $medicineType->id }}"
 										@if(!empty(old('medicine_type_id')))
@@ -38,9 +38,13 @@
 					</div>
 
 					<div class="field">
-						<label class="label" for="price">Cijena</label>
+						<label class="label" for="price">Price</label>
 						<div class="control">
-							<input class="input {{ $errors->has('price') ? 'is-danger' : '' }}" name="price" type="text" placeholder="Cijena" value="{{ session('oldPrice') ?? old('price') ?? $medicine->price }}">
+							<input class="input {{ $errors->has('price') ? 'is-danger' : '' }}"
+                                   name="price"
+                                   type="text"
+                                   placeholder="Enter price"
+                                   value="{{ session('oldPrice') ?? old('price') ?? $medicine->price }}">
 						</div>
 					</div>
 
@@ -48,7 +52,7 @@
 
 					<div class="field">
 						<div class="control">
-							<button class="button is-link" type="submit">Izmijeni Lijek</button>
+							<button class="button is-link" type="submit">Edit medicine</button>
 						</div>
 					</div>
 				</form>

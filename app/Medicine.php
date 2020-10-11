@@ -8,7 +8,9 @@ class Medicine extends Model
 {
 	protected $guarded = [];
 
-	/* RELACIJE */
+    /**
+     * Relations
+     */
 	public function medicineType() {
 		return $this->belongsTo(MedicineType::class);
 	}
@@ -18,16 +20,18 @@ class Medicine extends Model
 	}
 
 	public function orders() {
-		return $this->belongsToMany(Order::class)->withPivot(['quantity'])->withTimestamps();
+		return $this->belongsToMany(Order::class)
+            ->withPivot(['quantity'])
+            ->withTimestamps();
 	}
 
 	/*  */
 	public static function search($search) {
 		return self::with('medicineType')
 			->join('medicine_types', 'medicines.medicine_type_id', '=', 'medicine_types.id')
-			->select('medicines.*', 'medicine_types.naziv as medicine_type')
-			->where('medicines.naziv', 'LIKE', "%$search%")
-			->orWhere('medicine_types.naziv', 'LIKE', "%$search%")
+			->select('medicines.*', 'medicine_types.name as medicine_type')
+			->where('medicines.name', 'LIKE', "%$search%")
+			->orWhere('medicine_types.name', 'LIKE', "%$search%")
 			->orderBy(session('medOrder'), session('medSort'))
 			->paginate(6)
 			->appends(request()->only('search'));
@@ -46,7 +50,7 @@ class Medicine extends Model
 	// }
 
 	public static function medicinesNazivi() {
-		$medicines = Medicine::all()->pluck('naziv');
+		$medicines = Medicine::all()->pluck('name');
 		return $medicines->transform(function($item, $key) {
 			return strtolower($item);
 		});

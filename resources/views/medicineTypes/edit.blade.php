@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('content')
-	<h1 class="title has-text-centered">Izmijeni Tip Lijeka</h1>
+	<h1 class="title has-text-centered">Edit medicine type</h1>
 
 	<div class="columns">
 		<div class="column is-two-thirds is-offset-2">
@@ -11,9 +11,13 @@
 					@csrf
 
 					<div class="field">
-						<label class="label" for="name">Naziv</label>
+						<label class="label" for="name">Name</label>
 						<div class="control">
-							<input class="input {{ $errors->has('name') ? 'is-danger' : '' }}" name="name" type="text" placeholder="Naziv" value="{{ session()->get('oldName') ?? $medicineType->name }}">
+							<input class="input {{ $errors->has('name') ? 'is-danger' : '' }}"
+                                   name="name"
+                                   type="text"
+                                   placeholder="Enter name"
+                                   value="{{ session()->get('oldName') ?? $medicineType->name }}">
 							<input type="hidden" name="originalni_naziv" value="{{ $medicineType->name }}">
 						</div>
 					</div>
@@ -22,7 +26,7 @@
 
 					<div class="field">
 						<div class="control">
-							<button class="button is-primary" type="submit">Izmijeni Tip Lijeka</button>
+							<button class="button is-primary" type="submit">Edit medicine type</button>
 						</div>
 					</div>
 				</form>

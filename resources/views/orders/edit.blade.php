@@ -10,10 +10,10 @@
 				@csrf
 
 				<div class="field">
-					<label class="label" for="medicine_id">Naziv Lijeka</label>
+					<label class="label" for="medicine_id">Medicine name</label>
 					<div class="select">
 						<select name="medicine_id">
-							<option disabled>Izaberite Lijek</option>
+							<option disabled>Chose medicine</option>
 							@foreach($medicines as $medicine)
 								<option value="{{ $medicine->id }}"
 									@if(!empty(old('medicine_id')))
@@ -28,9 +28,13 @@
 				</div>
 
 				<div class="field">
-					<label class="label" for="quantity">Količina (Pakovanja)</label>
+					<label class="label" for="quantity">Quantity (pack)</label>
 					<div class="control">
-						<input class="input {{ $errors->has('quantity') ? 'is-danger' : '' }}" name="quantity" type="text" placeholder="Količina" value="{{ $order->quantity }}">
+						<input class="input {{ $errors->has('quantity') ? 'is-danger' : '' }}"
+                               name="quantity"
+                               type="text"
+                               placeholder="Enter quantity"
+                               value="{{ $order->quantity }}">
 					</div>
 				</div>
 
@@ -41,7 +45,7 @@
 				@endif
 
 				<div class="field">
-					<label class="label" for="price">Cijena (&euro;)</label>
+					<label class="label" for="price">Price (&euro;)</label>
 					<div class="control">
 						<input class="input" name="price" type="text" placeholder="Cijena" value="{{ $order->price }}">
 					</div>
@@ -55,7 +59,7 @@
 
 				<div class="field">
 					<div class="control">
-						<button class="button is-primary" type="submit">Izmijeni Trebovanje</button>
+						<button class="button is-primary" type="submit">Edit order</button>
 					</div>
 				</div>
 			</form>

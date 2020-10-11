@@ -10,7 +10,7 @@ class MedicineTypesController extends Controller
 {
 	public function __construct() {
 		$this->middleware('auth');
-		$this->middleware('prodavacAuth');
+		$this->middleware('seller-auth');
 	}
 
 	public function index() {

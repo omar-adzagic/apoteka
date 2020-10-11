@@ -52,9 +52,6 @@ class Kernel extends HttpKernel
      */
     protected $routeMiddleware = [
         'auth' => \App\Http\Middleware\Authenticate::class,
-        'prodavacAuth' => \App\Http\Middleware\ProdavacAuth::class,
-        'nepostojeciLijek' => \App\Http\Middleware\NepostojeciLijek::class,
-        
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
@@ -63,6 +60,8 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'seller-auth' => \App\Http\Middleware\SellerAuth::class,
+        'nepostojeciLijek' => \App\Http\Middleware\NepostojeciLijek::class,
         'nulaKolicina' => \App\Http\Middleware\NulaKolicina::class,
     ];
 

@@ -16,7 +16,7 @@ class ReceiptsController extends Controller
 
 	public function __construct() {
 		$this->middleware('auth');
-		$this->middleware('prodavacAuth')->only(['edit', 'update', 'destroy']);
+		$this->middleware('seller-auth')->only(['edit', 'update', 'destroy']);
 		$this->middleware('nepostojeciLijek')->only(['store', 'storeSingle']);
 		$this->middleware('nulaKolicina')->only(['createSingle']);
 	}
@@ -25,7 +25,7 @@ class ReceiptsController extends Controller
 		// session()->forget(['recOrder', 'recSort']);
 		empty(session('recOrder')) ? session(['recOrder' => 'id']) : null;
 		empty(session('recSort')) ? session(['recSort' => 'DESC']) : null;
-		$receipts = Receipt::orderBy(session('recOrder'),session('recSort'))->paginate(6);
+		$receipts = Receipt::orderBy(session('recOrder'), session('recSort'))->paginate(6);
 
 		return view('receipts.index', compact('receipts'));
 	}
@@ -74,11 +74,11 @@ class ReceiptsController extends Controller
 
 		foreach($arr as $requestNiz) {
 			$medicine_id = reset($requestNiz);
-			$kolicina = end($requestNiz);
+			$quantity = end($requestNiz);
 			$medicine = Medicine::find($medicine_id);
 
 			$validator = Validator::make($requestNiz, [
-				array_keys($requestNiz)[1] => ['lte:' . $medicine->kolicina]
+				array_keys($requestNiz)[1] => ['lte:' . $medicine->quantity]
 			]);
 			if($validator->fails()) {
 				session(['medicinesNumber' => $medicinesNumber]);
@@ -93,30 +93,30 @@ class ReceiptsController extends Controller
 
 		$sledeciId = Receipt::sledeciId();
 
-		$ukupanIznos = 0;
+		$totalPrice = 0;
 		foreach($arr as $requestNiz) {
 			$medicine_id = reset($requestNiz);
-			$kolicina = end($requestNiz);
+			$quantity = end($requestNiz);
 
 			$medicine = Medicine::find($medicine_id);
-			$medicine->kolicina -= $kolicina;
+			$medicine->quantity -= $quantity;
 			$medicine->save();
-			$iznosZaLijek = $kolicina * $medicine->price;
-			$ukupanIznos += $iznosZaLijek;
+			$medicinePrice = $quantity * $medicine->price;
+			$totalPrice += $medicinePrice;
 
 			$receipt = new Receipt();
 			$receipt->id = $sledeciId;
-			$receipt->prodavac = auth()->user()->ime . ' ' . auth()->user()->prezime;
+			$receipt->seller = auth()->user()->name . ' ' . auth()->user()->surname;
 			$receipt->medicines()->attach([
 				$medicine_id => [
-					'kolicina' => $kolicina,
-					'iznos'    => $iznosZaLijek
+					'quantity' => $quantity,
+					'value'    => $medicinePrice
 				]
 			]);
 		}
-		$receipt->ukupan_iznos = $ukupanIznos;
+		$receipt->total_price = $totalPrice;
 		$receipt->save();
-		return redirect('/receipts')->with(['message' => 'Uspješno Napravljen Račun.']);
+		return redirect('/receipts')->with(['message' => 'Uspješno napravljen račun.']);
 	}
 
 	public function storeSingle(Request $request) {
@@ -126,29 +126,29 @@ class ReceiptsController extends Controller
 		$medicine_id = $request['medicine_id'];
 		$medicine = Medicine::find($medicine_id);
 		$request->validate([
-			'kolicina' => ['required', 'numeric', 'integer', 'gte:1', 'lte:' . $medicine->kolicina]
+			'quantity' => ['required', 'numeric', 'integer', 'gte:1', 'lte:' . $medicine->quantity]
 		]);
 
-		$kolicina = $request['kolicina'];
+		$quantity = $request['quantity'];
 
-		$medicine->kolicina -= $kolicina;
+		$medicine->quantity -= $quantity;
 		$medicine->save();
 
-		$iznosZaLijek = $kolicina * $medicine->price;
+		$medicinePrice = $quantity * $medicine->price;
 
 		$receipt = new Receipt();
 		$receipt->id = Receipt::sledeciId();
-		$receipt->prodavac = auth()->user()->ime . ' ' . auth()->user()->prezime;
+		$receipt->seller = auth()->user()->ime . ' ' . auth()->user()->prezime;
 		$receipt->medicines()->attach([
 			$medicine_id => [
-				'kolicina' => $kolicina,
-				'iznos'    => $iznosZaLijek
+				'quantity' => $quantity,
+				'iznos'    => $medicinePrice
 			]
 		]);
-		$receipt->ukupan_iznos = $iznosZaLijek;
+		$receipt->total_price = $medicinePrice;
 		$receipt->save();
 
-		return redirect('/receipts')->with(['message' => 'Uspješno Napravljen Račun.']);
+		return redirect('/receipts')->with(['message' => 'Uspješno napravljen račun.']);
 	}
 
 	public function edit(Receipt $receipt) {
@@ -158,9 +158,10 @@ class ReceiptsController extends Controller
 	public function update(Request $request, Receipt $receipt) {
 		$data = request()->validate([
 			'medicine_id' => ['required', 'integer', 'gte:0'],
-			'kolicina'    => ['required', 'numeric', 'integer', 'gte:1']
+			'quantity'    => ['required', 'numeric', 'integer', 'gte:1']
 		]);
 		$receipt->update($data);
+
 		return redirect('/receipts');
 	}
 
@@ -171,7 +172,7 @@ class ReceiptsController extends Controller
 		return back()->with(['message' => 'Uspješno Izbrisan Račun.']);
 	}
 
-	public function medicinesNumber(Request $request) {
+	public function medicineNumber(Request $request) {
 		$data = $request->validate([
 			'medicinesNumber' => ['required', 'numeric', 'integer','gte:1']
 		]);

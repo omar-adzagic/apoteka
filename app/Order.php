@@ -9,14 +9,18 @@ class Order extends Model
 {
 	protected $guarded = [];
 
-	/* RELACIJE */
-	public function medicines() {
-		return $this->belongsToMany(Medicine::class)->withPivot(['quantity'])->withTimestamps();
-	}
+    /*  */
+    public static function sledeciId() {
+        $statement = DB::select("SHOW TABLE STATUS LIKE 'orders'");
+        return $statement[0]->Auto_increment;
+    }
 
-	/*  */
-	public static function sledeciId() {
-		$statement = DB::select("SHOW TABLE STATUS LIKE 'orders'");
-		return $statement[0]->Auto_increment;
+    /**
+     * Relations
+     */
+	public function medicines() {
+		return $this->belongsToMany(Medicine::class)
+            ->withPivot(['quantity'])
+            ->withTimestamps();
 	}
 }

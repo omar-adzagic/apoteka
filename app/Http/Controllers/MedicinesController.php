@@ -16,7 +16,7 @@ class MedicinesController extends Controller
 	public function __construct() {
 		// session(['tip_lijeka' => false]);
 		$this->middleware('auth');
-		$this->middleware('prodavacAuth')->except(['index', 'sort']);
+		$this->middleware('seller-auth')->except(['index', 'sort']);
 	}
 
 	public function index() {
@@ -53,7 +53,7 @@ class MedicinesController extends Controller
 			'medicine_type_id' => ['required', 'integer', 'gte:0'],
 		]);
 
-		$data['kolicina'] = 0;
+		$data['quantity'] = 0;
 
 		// $medicines = Medicine::all()->pluck('name');
 		// $medicines->transform(function($item, $key) {

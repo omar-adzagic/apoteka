@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('content')
-	<h1 class="title has-text-centered">Trebovanja</h1>
+	<h1 class="title has-text-centered">Orders</h1>
 
 	@if(session()->has('message'))
 		<div class="notification is-primary has-text-weight-bold">
@@ -17,14 +17,14 @@
 						ID <i class="fas fa-sort"></i>
 					</a>
 				</th>
-				<th class="has-text-centered">Naziv Lijeka / Ljekova</th>
-				<th class="has-text-centered">Količina / Količine</th>
+				<th class="has-text-centered">Medicine name</th>
+				<th class="has-text-centered">Quantity</th>
 				<th class="has-text-centered">
 					<a href="{{ route('orders.sort', ['parametar' => 'created_at']) }}">
-						Vrijeme <i class="fas fa-sort"></i>
+						Time <i class="fas fa-sort"></i>
 					</a>
 				</th>
-				<th class="has-text-centered" colspan="2">Alati</th>
+				<th class="has-text-centered" colspan="2">Action</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -32,7 +32,7 @@
 				<tr>
 					<td class="has-text-centered centriraj">{{ $order->id }}</td>
 					<td class="has-text-centered">
-						{!! $order->medicines->implode('naziv', '<hr>') !!}
+						{!! $order->medicines->implode('name', '<hr>') !!}
 					</td>
 					<td class="has-text-centered">
 						{!! $order->medicines->pluck('pivot')->implode('quantity', '<hr>') !!}
@@ -44,13 +44,13 @@
 						</small>
 					</td>
 					<td class="has-text-centered">
-						<a class="button is-info" href="{{ route('orders.show', compact('order')) }}">Prikaži</a>
+						<a class="button is-info" href="{{ route('orders.show', compact('order')) }}">Show</a>
 					</td>
 					<td class="has-text-centered">
 						<form method="POST" action="{{ route('orders.destroy', compact('order')) }}">
 							@method('DELETE')
 							@csrf
-							<button class="button is-danger" type="submit">Izbriši</button>
+							<button class="button is-danger" type="submit">Delete</button>
 						</form>
 					</td>
 				</tr>
@@ -60,14 +60,14 @@
 
 	<div class="field">
 		<div class="control box sijenka">
-			<form method="POST" action="{{ route('orders.brojLjekova') }}">
+			<form method="POST" action="{{ route('orders.medicineNumber') }}">
 				@csrf
 				<div class="columns">
 					<div class="column is-2">
-						<button class="button is-primary napravi" type="submit">Napravi Trebovanje</button>
+						<button class="button is-primary napravi" type="submit">Make order</button>
 					</div>
-					<div class="column is-3 brojLjekova">
-						<input class="input" type="number" name="brojLjekova" placeholder="Unesite Broj Ljekova" value="{{ old('brojLjekova') }}">
+					<div class="column is-3 medicineNumber">
+						<input class="input" type="number" min="1" name="medicineNumber" placeholder="Enter medicines count" value="{{ old('medicineNumber') }}">
 					</div>
 					<div class="column is-7 is-pulled-right">
 						<div class="is-pulled-right">
@@ -79,9 +79,9 @@
 		</div>
 	</div>
 
-	@if($errors->has('brojLjekova'))
+	@if($errors->has('medicineNumber'))
 		<div class="notification is-danger">
-			{{ $errors->first('brojLjekova') }}
+			{{ $errors->first('medicineNumber') }}
 		</div>
 	@endif
 @endsection

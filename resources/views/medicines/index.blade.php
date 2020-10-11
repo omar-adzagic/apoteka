@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('content')
-	<h1 class="title has-text-centered">Ljekovi</h1>
+	<h1 class="title has-text-centered">Medicines</h1>
 
 	@if(session()->has('message'))
 		<div class="notification is-primary">
@@ -16,7 +16,7 @@
 				<input id="search" class="input" name="search" type="text" placeholder="Unesite Naziv Lijeka" value="{{ $search ?? '' }}">
 			</div>
 			<div class="control">
-				<button class="button is-info" type="submit">Pretraga</button>
+				<button class="button is-info" type="submit">Search</button>
 			</div>
 		</div>
 	</form>
@@ -31,12 +31,12 @@
 				</th>
 				<th class="has-text-centered">
 					<a href="{{ route('medicines.sort', ['parametar' => 'name']) }}"> {{-- /medicines/sort/naziv --}}
-						Naziv Lijeka <i class="fas fa-sort"></i>
+						Medicine name <i class="fas fa-sort"></i>
 					</a>
 				</th>
 				<th class="has-text-centered">
 					<a href="{{ route('medicines.sort', ['parametar' => 'medicine_type']) }}">
-						Tip Lijeka <i class="fas fa-sort"></i>
+						Medicine type <i class="fas fa-sort"></i>
 					</a>
 				</th>
 				<th class="has-text-centered">
@@ -46,10 +46,10 @@
 				</th>
 				<th class="has-text-centered">
 					<a href="{{ route('medicines.sort', ['parametar' => 'price']) }}">
-						Cijena (&euro;) <i class="fas fa-sort"></i>
+						Price (&euro;) <i class="fas fa-sort"></i>
 					</a>
 				</th>
-				<th class="has-text-centered">Napravi Račun</th>
+				<th class="has-text-centered">Make receipt</th>
 				@if(!Auth::guest() && auth()->user()->role->name == 'Manager')
 					<th class="has-text-centered" colspan="2">Alati</th>
 				@endif
@@ -68,20 +68,20 @@
 					<td class="has-text-centered">{{ $medicine->price }}</td>
 					<td class="has-text-centered">
 						<a class="button" href="{{ route('receipts.createSingle', compact('medicine')) }}">
-							Napravi Račun
+							Make receipt
 						</a>
 					</td>
 					@if(!Auth::guest() && auth()->user()->role->name == 'Manager')
 						<td class="has-text-centered">
 							<a class="button is-link" href="{{ route('medicines.edit', compact('medicine')) }}">
-								Izmijeni
+								Edit
 							</a>
 						</td>
 						<td class="has-text-centered">
 							<form method="POST" action="{{ route('medicines.destroy', compact('medicine')) }}">
 								@method('DELETE')
 								@csrf
-								<button class="button is-danger" type="submit">Izbriši</button>
+								<button class="button is-danger" type="submit">Delete</button>
 							</form>
 						</td>
 					@endif
@@ -97,7 +97,7 @@
 					<div class="column is-2">
 						<div class="field">
 							<div class="control">
-								<a class="button is-primary napravi" href="{{ route('medicines.create') }}">Dodaj Lijek</a>
+								<a class="button is-primary napravi" href="{{ route('medicines.create') }}">Add medicine</a>
 							</div>
 						</div>
 					</div>

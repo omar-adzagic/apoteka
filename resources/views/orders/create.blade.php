@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('content')
-	<h1 class="title has-text-centered">Dodaj Trebovanje</h1>
+	<h1 class="title has-text-centered">Add order</h1>
 
 	<div class="columns">
 		<div class="column is-two-thirds is-offset-2">
@@ -9,12 +9,12 @@
 				<form method="POST" action="{{ route('orders.store') }}">
 					@csrf
 
-					@for($i = 1; $i <= session('brojLjekova'); $i++)
+					@for($i = 1; $i <= session('medicineNumber'); $i++)
 						<div class="field">
-							<label class="label" for="medicine_id_{{ $i }}">Naziv Lijeka</label>
+							<label class="label" for="medicine_id_{{ $i }}">Medicine name</label>
 							<div class="select">
 								<select name="medicine_id_{{ $i }}">
-									<option disabled>Izaberite Lijek</option>
+									<option disabled>Choose medicine</option>
 									@foreach($medicines as $medicine)
 										<option value="{{ $medicine->id }}" {{ old('medicine_id_' . $i) == $medicine->id ? 'selected' : '' }}>{{ $medicine->name }}</option>
 									@endforeach
@@ -23,9 +23,13 @@
 						</div>
 
 						<div class="field">
-							<label class="label" for="quantity_{{ $i }}">Količina (Pakovanja)</label>
+							<label class="label" for="quantity_{{ $i }}">Quantity (pack)</label>
 							<div class="control">
-								<input class="input {{ $errors->has('quantity_' . $i) ? 'is-danger' : '' }}" name="quantity_{{ $i }}" type="text" placeholder="Količina" value="{{ old('quantity_' . $i) }}">
+								<input class="input {{ $errors->has('quantity_' . $i) ? 'is-danger' : '' }}"
+                                       name="quantity_{{ $i }}"
+                                       type="text"
+                                       placeholder="Enter quantity"
+                                       value="{{ old('quantity_' . $i) }}">
 							</div>
 						</div>
 
@@ -37,11 +41,11 @@
 
 						<hr>
 					@endfor
-					<input type="hidden" name="brojLjekova" value="{{ $brojLjekova }}">
+					<input type="hidden" name="medicineNumber" value="{{ $medicineNumber }}">
 
 					<div class="field">
 						<div class="control">
-							<button class="button is-primary" type="submit">Izvrši Trebovanje</button>
+							<button class="button is-primary" type="submit">Make order</button>
 						</div>
 					</div>
 				</form>

@@ -11,7 +11,7 @@ class UsersController extends Controller
 {
 	public function __construct() {
 		$this->middleware('auth');
-		$this->middleware('prodavacAuth');
+		$this->middleware('seller-auth');
 	}
 
 	public function index() {
@@ -34,15 +34,15 @@ class UsersController extends Controller
 	public function store(Request $request) {
 		$data = request()->validate([
 			'role_id' => ['required'],
-			'ime' => ['required'],
-			'prezime' => ['required'],
+			'name' => ['required'],
+			'surname' => ['required'],
 			'email' => ['required', 'email'],
 			'password' => ['required', 'min:6' ,'confirmed'],
 		]);
 		$data['password'] = Hash::make($data['password'], ['rounds' => 12]);
 
 		User::create($data);
-		session()->flash('message', 'Uspješno Dodat Korisnik.');
+		session()->flash('message', 'User is successfully stored.');
 		return redirect('/users');
 	}
 
@@ -54,8 +54,8 @@ class UsersController extends Controller
 	public function update(Request $request, User $user) {
 		$data = $request->validate([
 			'role_id' => ['required'],
-			'ime' => ['required', 'min:2'],
-			'prezime' => ['required', 'min:2'],
+			'name' => ['required', 'min:2'],
+			'surname' => ['required', 'min:2'],
 			'email' => ['required', 'email']
 		]);
 
@@ -68,13 +68,13 @@ class UsersController extends Controller
 		}
 
 		$user->update($data);
-		session()->flash('message', 'Uspješno Izmijenjen Korisnik.');
+		session()->flash('message', 'User is updated successfully.');
 		return redirect('/users');
 	}
 
 	public function destroy(User $user) {
 		$user->delete();
-		session()->flash('message', 'Uspješno Izbrisan Korisnik.');
+		session()->flash('message', 'User is deleted successfully.');
 		return redirect('/users');
 	}
 

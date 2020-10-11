@@ -12,14 +12,14 @@ Route::resource('medicineTypes', 'MedicineTypesController');
 
 // Receipts
 Route::get('/receipts/sort/{parametar}', 'ReceiptsController@sort')->name('receipts.sort');
-Route::post('/receipts/brojLjekova', 'ReceiptsController@brojLjekova')->name('receipts.brojLjekova');
+Route::post('/receipts/medicineNumber', 'ReceiptsController@medicineNumber')->name('receipts.medicineNumber');
 Route::get('/receipts/{medicine}/createSingle', 'ReceiptsController@createSingle')->name('receipts.createSingle');
 Route::post('/receipts/storeSingle', 'ReceiptsController@storeSingle')->name('receipts.storeSingle');
 Route::resource('receipts', 'ReceiptsController');
 
 // Orders
 Route::get('/orders/sort/{parametar}', 'OrdersController@sort')->name('orders.sort');
-Route::post('/orders/brojLjekova', 'OrdersController@brojLjekova')->name('orders.brojLjekova');
+Route::post('/orders/medicineNumber', 'OrdersController@medicineNumber')->name('orders.medicineNumber');
 Route::resource('/orders', 'OrdersController');
 
 // Users

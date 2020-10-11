@@ -13,21 +13,21 @@ class OrdersController extends Controller
 {
 	public function __construct() {
 		$this->middleware('auth');
-		$this->middleware('prodavacAuth');
+		$this->middleware('seller-auth');
 	}
 
 	public function index() {
 		empty(session('ordOrder')) ? session(['ordOrder' => 'id']) : null;
 		empty(session('ordSort')) ? session(['ordSort' => 'ASC']) : null;
 		$orders = Order::orderBy(session('ordOrder'), session('ordSort'))
-			->paginate(6);
+            ->paginate(6);
 		return view('orders.index', compact('orders'));
 	}
 
 	public function create() {
-		$medicines = Medicine::orderBy('naziv', 'ASC')->get();
-		$brojLjekova = session('brojLjekova');
-		return view('orders.create', compact('medicines', 'brojLjekova'));
+		$medicines = Medicine::orderBy('name', 'ASC')->get();
+		$medicineNumber = session('medicineNumber');
+		return view('orders.create', compact('medicines', 'medicineNumber'));
 	}
 
 	public function show(Order $order) {
@@ -35,8 +35,8 @@ class OrdersController extends Controller
 	}
 
 	public function store(Request $request) {
-		// $brojLjekova = $request->input('brojLjekova');
-		// $request->request->remove('brojLjekova');
+		// $medicineNumber = $request->input('medicineNumber');
+		// $request->request->remove('medicineNumber');
 
 		// dd($request->all(0));
 
@@ -52,7 +52,6 @@ class OrdersController extends Controller
 			$validationArr[$key] = 'required|numeric|integer|gt:0';
 		}
 
-		// dd($arr);
 		// dd($validationArr);
 
 		$validator = Validator::make($request->all(), $validationArr);
@@ -63,25 +62,24 @@ class OrdersController extends Controller
 				// ->with(['medicines' => Medicine::all()]);
 		}
 
-		session()->forget('brojLjekova');
+		session()->forget('medicineNumber');
 
 		$sledeciId = Order::sledeciId();
 
 		foreach($arr as $requestNiz) {
 			$medicine_id = reset($requestNiz);
-			$kolicina = end($requestNiz);
+			$quantity = end($requestNiz);
 
 			$order = new Order();
 			$order->id = $sledeciId;
-			$order->medicines()->attach([
-				$medicine_id => ['kolicina' => $kolicina]
-			]);
+
+			$order->medicines()->attach([$medicine_id => ['quantity' => $quantity]]);
 
 			$medicine = Medicine::find($medicine_id);
-			$medicine->kolicina += $kolicina;
+			$medicine->quantity += $quantity;
 			$medicine->save();
 		}
-		$order->menadzer = auth()->user()->ime . ' ' . auth()->user()->prezime;
+		$order->manager = auth()->user()->name . ' ' . auth()->user()->surname;
 		$order->save();
 
 		return redirect('/orders')->with(['message' => 'Uspješno Napravljeno Trebovanje.']);
@@ -102,12 +100,12 @@ class OrdersController extends Controller
 		return back()->with(['message' => 'Uspješno Izbrisano Trebovanje.']);
 	}
 
-	public function brojLjekova(Request $request) { //$brLjek = null,
+	public function medicineNumber(Request $request) { //$brLjek = null,
 		$data = request()->validate([
-			'brojLjekova' => ['required', 'numeric', 'integer','gte:1']
+			'medicineNumber' => ['required', 'numeric', 'integer','gte:1']
 		]);
 
-		session(['brojLjekova' => $data['brojLjekova']]);
+		session(['medicineNumber' => $data['medicineNumber']]);
 		return $this->create();
 	}
 

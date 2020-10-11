@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('content')
-	<h1 class="title has-text-centered">Tipovi Ljekova</h1>
+	<h1 class="title has-text-centered">Medicine types</h1>
 
 	@if(session()->has('message'))
 		<div class="notification is-primary has-text-weight-bold">
@@ -14,16 +14,17 @@
 			<tr>
 				<th class="has-text-centered">
 					<a href="{{ route('medicineTypes.sort', ['parametar' => 'id']) }}">
-						ID <i class="fas fa-sort"></i>
+						ID
+                        <i class="fas fa-sort"></i>
 					</a>
 				</th>
 				<th class="has-text-centered">
 					<a href="{{ route('medicineTypes.sort', ['parametar' => 'name']) }}">
-						Tip Lijeka <i class="fas fa-sort"></i>
+						Medicine type <i class="fas fa-sort"></i>
 					</a>
 				</th>
-				<th class="has-text-centered">Ljekovi Ovog Tipa</th>
-				<th class="has-text-centered" colspan="2">Alati</th>
+				<th class="has-text-centered">Medicines of this type</th>
+				<th class="has-text-centered" colspan="2">Action</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -35,13 +36,15 @@
 						{{ $medicineType->medicines->implode('name', ', ') }}
 					</td>
 					<td class="has-text-centered">
-						<a class="button is-link" href="{{ route('medicineTypes.edit', compact('medicineType')) }}">Izmijeni</a>
+						<a class="button is-link" href="{{ route('medicineTypes.edit', compact('medicineType')) }}">
+                            Edit
+                        </a>
 					</td>
 					<td class="has-text-centered">
 						<form method="POST" action="{{ route('medicineTypes.destroy', compact('medicineType')) }}">
 							@method('DELETE')
 							@csrf
-							<button class="button is-danger" type="submit">Izbriši</button>
+							<button class="button is-danger" type="submit">Delete</button>
 						</form>
 					</td>
 				</tr>
@@ -52,7 +55,7 @@
 		<div class="control box sijenka">
 			<div class="columns">
 				<div class="column is-2">
-					<a class="button is-primary napravi" href="{{ route('medicineTypes.create') }}">Dodaj Tip Lijeka</a>
+					<a class="button is-primary napravi" href="{{ route('medicineTypes.create') }}">Add medicine type</a>
 				</div>
 
 				<div class="column is-10 is-pulled-right">

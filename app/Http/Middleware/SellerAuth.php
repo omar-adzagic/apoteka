@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class ProdavacAuth
+class SellerAuth
 {
     /**
      * Handle an incoming request.
@@ -15,7 +15,7 @@ class ProdavacAuth
      */
     public function handle($request, Closure $next)
     {
-        if(auth()->user()->role->name == 'Prodavac') {
+        if(auth()->user()->role->name == 'Seller') {
             abort(403, 'Pristup Nije Dozvoljen Prodavcu');
         }
         return $next($request);

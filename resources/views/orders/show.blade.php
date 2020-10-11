@@ -1,28 +1,28 @@
 @extends('layout')
 
 @section('content')
-	<h1 class="title has-text-centered">Prikaz Trebovanja (id: {{ $order->id }})</h1>
+	<h1 class="title has-text-centered">Order display (ID: {{ $order->id }})</h1>
 
 	<table class='table is-fullwidth is-bordered is-striped prikaz'>
 		<thead>
 			<tr>
-				<th class="has-text-centered">Osobina (<small class="has-text-grey">Jedinica Mjere</small>)</th>
-				<th class="has-text-centered">Vrijednost</th>
+				<th class="has-text-centered">Property (<small class="has-text-grey">Quantity unit</small>)</th>
+				<th class="has-text-centered">Value</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr>
-				<td>Naziv Lijeka / Ljekova</td>
+				<td>Medicine name</td>
 				<td>{{ $order->medicines->implode('name', ' | ') }}</td>
 			</tr>
 			<tr>
-				<td>Količina (Pakovanje)</td>
+				<td>Quantity (Pack)</td>
 				<td>
 					{{ $order->medicines->pluck('pivot')->implode('quantity', ' | ') }}
 				</td>
 			</tr>
 			<tr>
-				<td>Vrijeme</td>
+				<td>Time</td>
 				<td>
 					{{ date('d/m/Y - H:i', strtotime($order->created_at)) }} |
 					<small class="has-text-grey">
@@ -31,8 +31,8 @@
 				</td>
 			</tr>
 			<tr>
-				<td>Menadžer</td>
-				<td>{{ $order->menadzer }}</td>
+				<td>Menager</td>
+				<td>{{ $order->manager }}</td>
 			</tr>
 		</tbody>
 	</table>
